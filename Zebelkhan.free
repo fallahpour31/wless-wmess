@@ -1,0 +1,2938 @@
+{
+  "log": {
+    "level": "warn",
+    "output": "box.log",
+    "timestamp": true
+  },
+  "dns": {
+    "servers": [
+      {
+        "tag": "dns-remote",
+        "address": "udp://1.1.1.1",
+        "address_resolver": "dns-direct"
+      },
+      {
+        "tag": "dns-trick-direct",
+        "address": "https://sky.rethinkdns.com/",
+        "detour": "direct-fragment"
+      },
+      {
+        "tag": "dns-direct",
+        "address": "1.1.1.1",
+        "address_resolver": "dns-local",
+        "detour": "direct"
+      },
+      {
+        "tag": "dns-local",
+        "address": "local",
+        "detour": "direct"
+      },
+      {
+        "tag": "dns-block",
+        "address": "rcode://success"
+      }
+    ],
+    "rules": [
+      {
+        "domain": "cp.cloudflare.com",
+        "server": "dns-remote",
+        "rewrite_ttl": 3000
+      },
+      {
+        "rule_set": [
+          "geoip-ir",
+          "geosite-ir"
+        ],
+        "server": "dns-direct"
+      }
+    ],
+    "final": "dns-remote",
+    "static_ips": {
+      "sky.rethinkdns.com": [
+        "104.17.148.22",
+        "104.17.147.22",
+        "188.114.97.3",
+        "188.114.96.3"
+      ]
+    },
+    "independent_cache": true
+  },
+  "inbounds": [
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "mtu": 9000,
+      "inet4_address": "172.19.0.1/28",
+      "inet6_address": "fdfe:dcba:9876::1/126",
+      "auto_route": true,
+      "strict_route": true,
+      "endpoint_independent_nat": true,
+      "stack": "gvisor",
+      "sniff": true,
+      "sniff_override_destination": true
+    },
+    {
+      "type": "mixed",
+      "tag": "mixed-in",
+      "listen": "127.0.0.1",
+      "listen_port": 12334,
+      "sniff": true,
+      "sniff_override_destination": true
+    },
+    {
+      "type": "direct",
+      "tag": "dns-in",
+      "listen": "127.0.0.1",
+      "listen_port": 16450
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "selector",
+      "tag": "select",
+      "outbounds": [
+        "auto",
+        "🔒 VL-WS-NONE 🇮🇷 IR-193.111.236.187:1433 § 0",
+        "🔒 SS-TCP-NA 🇺🇸 US-23.157.40.113:6679 § 1",
+        "🔒 TR-WS-TLS 🏴‍☠️ NA-104.19.35.14:443 § 2",
+        "🔒 SS-TCP-NA 🇧🇭 BH-16.24.114.247:443 § 3",
+        "🔒 TR-TCP-NA 🏴‍☠️ NA-104.21.65.254:2083 § 4",
+        "🔒 VL-WS-TLS 🇸🇪 SE-185.146.173.29:443 § 5",
+        "🔒 VM-WS-NA 🏴‍☠️ NA-104.19.45.57:2095 § 6",
+        "🔒 VL-WS-NONE 🇸🇪 SE-185.146.173.24:80 § 7",
+        "🔒 TR-WS-TLS 🏴‍☠️ NA-190.93.246.247:443 § 8",
+        "🔒 VM-WS-TLS 🏴‍☠️ NA-104.21.15.212:443 § 9",
+        "🔒 TR-TCP-TLS 🏴‍☠️ NA-104.16.132.167:443 § 10",
+        "🔒 TR-TCP-TLS 🇫🇷 FR-52.47.213.253:22222 § 11",
+        "🔒 VL-WS-NONE 🏴‍☠️ NA-104.21.55.174:2082 § 12",
+        "🔒 VM-TCP-NA 🇺🇸 US-108.181.200.220:17163 § 13",
+        "🔒 VL-WS-NONE 🇫🇷 FR-162.19.228.119:80 § 14",
+        "🔒 TR-WS-TLS 🏴‍☠️ NA-104.16.159.4:443 § 15",
+        "🔒 TR-WS-TLS 🏴‍☠️ NA-104.16.159.5:443 § 16",
+        "🔒 TR-TCP-TLS 🇮🇪 IE-34.251.213.107:22222 § 17",
+        "🔒 TR-TCP-NA 🏴‍☠️ NA-172.67.196.170:2083 § 18",
+        "🔒 VM-GRPC-TLS 🏴‍☠️ NA-108.162.192.154:2087 § 19",
+        "🔒 TR-TCP-TLS 🇩🇪 DE-3.64.32.234:22222 § 20",
+        "🔒 VL-WS-TLS 🏴‍☠️ NA-172.66.44.109:443 § 21",
+        "🔒 VM-TCP-NA 🇺🇸 US-142.0.134.243:45017 § 22",
+        "🔒 VL-WS-TLS 🏴‍☠️ NA-104.17.245.156:443 § 23",
+        "🔒 TR-TCP-TLS 🇩🇪 DE-3.74.209.41:22222 § 24",
+        "🔒 TR-TCP-TLS 🇫🇷 FR-13.37.24.49:22222 § 25",
+        "🔒 VL-WS-NONE 🏴‍☠️ NA-104.17.148.22:2082 (1) § 26",
+        "🔒 VL-WS-TLS 🏴‍☠️ NA-172.66.44.156:443 § 27",
+        "🔒 VL-WS-TLS 🇭🇰 HK-13.75.34.176:443 § 28",
+        "🔒 TR-TCP-TLS 🇪🇸 ES-18.100.115.245:443 § 29",
+        "🔒 VL-WS-TLS 🏴‍☠️ NA-104.21.83.62:443 § 30",
+        "🔒 VL-GRPC-TLS 🏴‍☠️ NA-172.67.65.180:443 § 31",
+        "🔒 TR-WS-TLS 🏴‍☠️ NA-198.41.220.5:443 § 32",
+        "🔒 VL-WS-NONE 🇦🇪 AE-217.60.192.135:8080 § 33",
+        "🔒 VL-WS-TLS 🏴‍☠️ NA-172.66.44.244:443 § 34",
+        "🔒 TR-TCP-TLS 🏴‍☠️ NA-172.67.131.245:443 § 35",
+        "🔒 VL-WS-TLS 🏴‍☠️ NA-172.67.161.104:8443 § 36",
+        "🔒 VL-TCP-NONE 🇩🇪 DE-91.107.191.75:669 § 37",
+        "🔒 TR-WS-NA 🏴‍☠️ NA-104.17.215.18:443 § 38",
+        "432-🇺🇸 美国 CloudFlare节点 § 39",
+        "🇪🇸 Spain - NA 🌍 VL-WS-TLS 4⃣ (1) § 40",
+        "🇪🇸 Spain - NA 🌍 VL-WS-TLS 4⃣ (2) § 41",
+        "🇱🇹 Lithuania - NA 🌍 VL-WS-TLS 4⃣ (9) § 42",
+        "🇳🇦 Namibia - NA 🌍 TR-WS-TLS 4⃣ § 43",
+        "🇳🇦 Namibia - NA 🌍 TR-WS-TLS 4⃣ (1) § 44",
+        "🇳🇦 Namibia - NA 🌍 TR-WS-TLS 4⃣ (2) § 45",
+        "🇳🇦 Namibia - NA 🌍 TR-WS-TLS 4⃣ (3) § 46",
+        "🇳🇦 Namibia - NA 🌍 TR-WS-TLS 4⃣ (4) § 47",
+        "🇳🇦 Namibia - NA 🌍 TR-WS-TLS 4⃣ (7) § 48",
+        "🇳🇦 Namibia - NA 🌍 TR-WS-TLS 4⃣ (10) § 49",
+        "🇳🇦 Namibia - NA 🌍 TR-WS-TLS 4⃣ (11) § 50",
+        "🇳🇦 Namibia - NA 🌍 TR-WS-TLS 4⃣ (12) § 51",
+        "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ § 52",
+        "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (8) § 53",
+        "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (21) § 54",
+        "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (51) § 55",
+        "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (88) § 56",
+        "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (100) § 57",
+        "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (157) § 58",
+        "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (164) § 59",
+        "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (169) § 60",
+        "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (191) § 61",
+        "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (211) § 62",
+        "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (233) § 63",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ § 64",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ (3) § 65",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ (5) § 66",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ (12) § 67",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ (7) § 68",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ (9) § 69",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ (13) § 70",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ (14) § 71",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ (15) § 72",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ (17) § 73",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ § 74",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (1) § 75",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (3) § 76",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (5) § 77",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (8) § 78",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (9) § 79",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (10) § 80",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (11) § 81",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (12) § 82",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (13) § 83",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (17) § 84",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (20) § 85",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (23) § 86",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (27) § 87",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (32) § 88",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (33) § 89",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (34) § 90",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (38) § 91",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (39) § 92",
+        "🇳🇱 Netherlands - Amsterdam 🌍 VM-WS-NA 4⃣ (1) § 93",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (46) § 94",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (51) § 95",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (54) § 96",
+        "🇳🇱 Netherlands - Amsterdam 🌍 VM-WS-NA 4⃣ § 97",
+        "🇳🇱 Netherlands - Amsterdam 🌍 VM-WS-NA 4⃣ (2) § 98",
+        "🇷🇺 Russian Federation - Moscow 🌍 VL-WS-TLS 4⃣ (4) § 99",
+        "🇷🇺 Russian Federation - NA 🌍 VL-WS-TLS 4⃣ (1) § 100",
+        "🇺🇸 United States - Dulles 🌎 VM-TCP-NA 4⃣ § 101",
+        "🇺🇸 United States - Los Angeles 🌎 HY1-UDP-TLS 4⃣ (8) § 102",
+        "🇺🇸 United States - Los Angeles 🌎 HY1-UDP-TLS 4⃣ (9) § 103",
+        "🇺🇸 United States - Los Angeles 🌎 HY1-UDP-TLS 4⃣ (10) § 104",
+        "🇺🇸 United States - Los Angeles 🌎 HY1-UDP-TLS 4⃣ (11) § 105",
+        "🇺🇸 United States - Los Angeles 🌎 VM-TCP-NA 4⃣ (9) § 106"
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "urltest",
+      "tag": "auto",
+      "outbounds": [
+        "🔒 VL-WS-NONE 🇮🇷 IR-193.111.236.187:1433 § 0",
+        "🔒 SS-TCP-NA 🇺🇸 US-23.157.40.113:6679 § 1",
+        "🔒 TR-WS-TLS 🏴‍☠️ NA-104.19.35.14:443 § 2",
+        "🔒 SS-TCP-NA 🇧🇭 BH-16.24.114.247:443 § 3",
+        "🔒 TR-TCP-NA 🏴‍☠️ NA-104.21.65.254:2083 § 4",
+        "🔒 VL-WS-TLS 🇸🇪 SE-185.146.173.29:443 § 5",
+        "🔒 VM-WS-NA 🏴‍☠️ NA-104.19.45.57:2095 § 6",
+        "🔒 VL-WS-NONE 🇸🇪 SE-185.146.173.24:80 § 7",
+        "🔒 TR-WS-TLS 🏴‍☠️ NA-190.93.246.247:443 § 8",
+        "🔒 VM-WS-TLS 🏴‍☠️ NA-104.21.15.212:443 § 9",
+        "🔒 TR-TCP-TLS 🏴‍☠️ NA-104.16.132.167:443 § 10",
+        "🔒 TR-TCP-TLS 🇫🇷 FR-52.47.213.253:22222 § 11",
+        "🔒 VL-WS-NONE 🏴‍☠️ NA-104.21.55.174:2082 § 12",
+        "🔒 VM-TCP-NA 🇺🇸 US-108.181.200.220:17163 § 13",
+        "🔒 VL-WS-NONE 🇫🇷 FR-162.19.228.119:80 § 14",
+        "🔒 TR-WS-TLS 🏴‍☠️ NA-104.16.159.4:443 § 15",
+        "🔒 TR-WS-TLS 🏴‍☠️ NA-104.16.159.5:443 § 16",
+        "🔒 TR-TCP-TLS 🇮🇪 IE-34.251.213.107:22222 § 17",
+        "🔒 TR-TCP-NA 🏴‍☠️ NA-172.67.196.170:2083 § 18",
+        "🔒 VM-GRPC-TLS 🏴‍☠️ NA-108.162.192.154:2087 § 19",
+        "🔒 TR-TCP-TLS 🇩🇪 DE-3.64.32.234:22222 § 20",
+        "🔒 VL-WS-TLS 🏴‍☠️ NA-172.66.44.109:443 § 21",
+        "🔒 VM-TCP-NA 🇺🇸 US-142.0.134.243:45017 § 22",
+        "🔒 VL-WS-TLS 🏴‍☠️ NA-104.17.245.156:443 § 23",
+        "🔒 TR-TCP-TLS 🇩🇪 DE-3.74.209.41:22222 § 24",
+        "🔒 TR-TCP-TLS 🇫🇷 FR-13.37.24.49:22222 § 25",
+        "🔒 VL-WS-NONE 🏴‍☠️ NA-104.17.148.22:2082 (1) § 26",
+        "🔒 VL-WS-TLS 🏴‍☠️ NA-172.66.44.156:443 § 27",
+        "🔒 VL-WS-TLS 🇭🇰 HK-13.75.34.176:443 § 28",
+        "🔒 TR-TCP-TLS 🇪🇸 ES-18.100.115.245:443 § 29",
+        "🔒 VL-WS-TLS 🏴‍☠️ NA-104.21.83.62:443 § 30",
+        "🔒 VL-GRPC-TLS 🏴‍☠️ NA-172.67.65.180:443 § 31",
+        "🔒 TR-WS-TLS 🏴‍☠️ NA-198.41.220.5:443 § 32",
+        "🔒 VL-WS-NONE 🇦🇪 AE-217.60.192.135:8080 § 33",
+        "🔒 VL-WS-TLS 🏴‍☠️ NA-172.66.44.244:443 § 34",
+        "🔒 TR-TCP-TLS 🏴‍☠️ NA-172.67.131.245:443 § 35",
+        "🔒 VL-WS-TLS 🏴‍☠️ NA-172.67.161.104:8443 § 36",
+        "🔒 VL-TCP-NONE 🇩🇪 DE-91.107.191.75:669 § 37",
+        "🔒 TR-WS-NA 🏴‍☠️ NA-104.17.215.18:443 § 38",
+        "432-🇺🇸 美国 CloudFlare节点 § 39",
+        "🇪🇸 Spain - NA 🌍 VL-WS-TLS 4⃣ (1) § 40",
+        "🇪🇸 Spain - NA 🌍 VL-WS-TLS 4⃣ (2) § 41",
+        "🇱🇹 Lithuania - NA 🌍 VL-WS-TLS 4⃣ (9) § 42",
+        "🇳🇦 Namibia - NA 🌍 TR-WS-TLS 4⃣ § 43",
+        "🇳🇦 Namibia - NA 🌍 TR-WS-TLS 4⃣ (1) § 44",
+        "🇳🇦 Namibia - NA 🌍 TR-WS-TLS 4⃣ (2) § 45",
+        "🇳🇦 Namibia - NA 🌍 TR-WS-TLS 4⃣ (3) § 46",
+        "🇳🇦 Namibia - NA 🌍 TR-WS-TLS 4⃣ (4) § 47",
+        "🇳🇦 Namibia - NA 🌍 TR-WS-TLS 4⃣ (7) § 48",
+        "🇳🇦 Namibia - NA 🌍 TR-WS-TLS 4⃣ (10) § 49",
+        "🇳🇦 Namibia - NA 🌍 TR-WS-TLS 4⃣ (11) § 50",
+        "🇳🇦 Namibia - NA 🌍 TR-WS-TLS 4⃣ (12) § 51",
+        "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ § 52",
+        "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (8) § 53",
+        "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (21) § 54",
+        "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (51) § 55",
+        "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (88) § 56",
+        "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (100) § 57",
+        "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (157) § 58",
+        "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (164) § 59",
+        "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (169) § 60",
+        "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (191) § 61",
+        "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (211) § 62",
+        "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (233) § 63",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ § 64",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ (3) § 65",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ (5) § 66",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ (12) § 67",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ (7) § 68",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ (9) § 69",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ (13) § 70",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ (14) § 71",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ (15) § 72",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ (17) § 73",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ § 74",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (1) § 75",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (3) § 76",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (5) § 77",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (8) § 78",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (9) § 79",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (10) § 80",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (11) § 81",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (12) § 82",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (13) § 83",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (17) § 84",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (20) § 85",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (23) § 86",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (27) § 87",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (32) § 88",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (33) § 89",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (34) § 90",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (38) § 91",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (39) § 92",
+        "🇳🇱 Netherlands - Amsterdam 🌍 VM-WS-NA 4⃣ (1) § 93",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (46) § 94",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (51) § 95",
+        "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (54) § 96",
+        "🇳🇱 Netherlands - Amsterdam 🌍 VM-WS-NA 4⃣ § 97",
+        "🇳🇱 Netherlands - Amsterdam 🌍 VM-WS-NA 4⃣ (2) § 98",
+        "🇷🇺 Russian Federation - Moscow 🌍 VL-WS-TLS 4⃣ (4) § 99",
+        "🇷🇺 Russian Federation - NA 🌍 VL-WS-TLS 4⃣ (1) § 100",
+        "🇺🇸 United States - Dulles 🌎 VM-TCP-NA 4⃣ § 101",
+        "🇺🇸 United States - Los Angeles 🌎 HY1-UDP-TLS 4⃣ (8) § 102",
+        "🇺🇸 United States - Los Angeles 🌎 HY1-UDP-TLS 4⃣ (9) § 103",
+        "🇺🇸 United States - Los Angeles 🌎 HY1-UDP-TLS 4⃣ (10) § 104",
+        "🇺🇸 United States - Los Angeles 🌎 HY1-UDP-TLS 4⃣ (11) § 105",
+        "🇺🇸 United States - Los Angeles 🌎 VM-TCP-NA 4⃣ (9) § 106"
+      ],
+      "url": "http://connectivitycheck.gstatic.com/generate_204",
+      "interval": "10m0s",
+      "idle_timeout": "1h40m0s"
+    },
+    {
+      "type": "vless",
+      "tag": "🔒 VL-WS-NONE 🇮🇷 IR-193.111.236.187:1433 § 0",
+      "server": "193.111.236.187",
+      "server_port": 1433,
+      "uuid": "b9fe9fde-a14f-4da4-a57d-0c4a89e8a885",
+      "transport": {
+        "type": "ws",
+        "path": "/",
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🔒 SS-TCP-NA 🇺🇸 US-23.157.40.113:6679 § 1",
+      "server": "23.157.40.113",
+      "server_port": 6679,
+      "method": "aes-256-gcm",
+      "password": "TEzjfAYq2IjtuoS"
+    },
+    {
+      "type": "trojan",
+      "tag": "🔒 TR-WS-TLS 🏴‍☠️ NA-104.19.35.14:443 § 2",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "104.19.35.14",
+      "server_port": 443,
+      "password": "bpb-trojan",
+      "tls": {
+        "enabled": true,
+        "server_name": "BPB-wOrkeR-pANel1-E4P.pageS.DeV",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/trbo9SGocZQNTqq3Cd/YnBiLnlvdXNlZi5pc2VnYXJvLmNvbQ==",
+        "headers": {
+          "Host": "bpb-worker-panel1-e4p.pages.dev"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🔒 SS-TCP-NA 🇧🇭 BH-16.24.114.247:443 § 3",
+      "server": "16.24.114.247",
+      "server_port": 443,
+      "method": "chacha20-ietf-poly1305",
+      "password": "Bog0ELmMM9DSxDdQ"
+    },
+    {
+      "type": "trojan",
+      "tag": "🔒 TR-TCP-NA 🏴‍☠️ NA-104.21.65.254:2083 § 4",
+      "server": "104.21.65.254",
+      "server_port": 2083,
+      "password": "r8CTEc4F7K",
+      "tls": {
+        "enabled": true,
+        "server_name": "speedtestneternanewsggffnetemailcloudflarecomexpresstvsoft98ir.expresstv.ggff.net",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "🔒 VL-WS-TLS 🇸🇪 SE-185.146.173.29:443 § 5",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "185.146.173.29",
+      "server_port": 443,
+      "uuid": "52cb9d5f-3395-51c1-975b-1cb5184671af",
+      "tls": {
+        "enabled": true,
+        "server_name": "fr2.vless.site",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/vless",
+        "headers": {
+          "Host": "fr2.vless.site"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "vmess",
+      "tag": "🔒 VM-WS-NA 🏴‍☠️ NA-104.19.45.57:2095 § 6",
+      "server": "104.19.45.57",
+      "server_port": 2095,
+      "uuid": "7a737f41-b792-4260-94ff-3d864da67b80",
+      "security": "auto",
+      "authenticated_length": true,
+      "transport": {
+        "type": "ws",
+        "path": "/",
+        "headers": {
+          "Host": "onea.flha.ru"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "🔒 VL-WS-NONE 🇸🇪 SE-185.146.173.24:80 § 7",
+      "server": "185.146.173.24",
+      "server_port": 80,
+      "uuid": "771854f6-156d-5162-9187-91620e7a5d59",
+      "transport": {
+        "type": "ws",
+        "path": "/vless",
+        "headers": {
+          "Host": "Nl2.vless.site."
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "trojan",
+      "tag": "🔒 TR-WS-TLS 🏴‍☠️ NA-190.93.246.247:443 § 8",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "190.93.246.247",
+      "server_port": 443,
+      "password": "dba20dcb635e430fa4d3bfc303a149d2",
+      "tls": {
+        "enabled": true,
+        "server_name": "jobscareerforlawyers.com",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/6b777a91",
+        "headers": {
+          "Host": "jobscareerforlawyers.com"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🔒 VM-WS-TLS 🏴‍☠️ NA-104.21.15.212:443 § 9",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "104.21.15.212",
+      "server_port": 443,
+      "uuid": "76221bfb-e92f-4e80-81c5-6fe48f50ac0b",
+      "security": "auto",
+      "authenticated_length": true,
+      "tls": {
+        "enabled": true,
+        "server_name": "glweidf.sbs",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/linkws",
+        "headers": {
+          "Host": "glweidf.sbs"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "🔒 TR-TCP-TLS 🏴‍☠️ NA-104.16.132.167:443 § 10",
+      "server": "104.16.132.167",
+      "server_port": 443,
+      "password": "91d7b973-630c-492f-9600-719f6a70f01e",
+      "tls": {
+        "enabled": true,
+        "server_name": "e1.777655.xyz",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "🔒 TR-TCP-TLS 🇫🇷 FR-52.47.213.253:22222 § 11",
+      "server": "52.47.213.253",
+      "server_port": 22222,
+      "password": "telegram-id-directvpn",
+      "tls": {
+        "enabled": true,
+        "server_name": "trojan.burgerip.co.uk",
+        "alpn": "http/1.1",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "🔒 VL-WS-NONE 🏴‍☠️ NA-104.21.55.174:2082 § 12",
+      "server": "104.21.55.174",
+      "server_port": 2082,
+      "uuid": "7c8b85ad-1e3c-431e-bd0c-1e188ceecfc4",
+      "transport": {
+        "type": "ws",
+        "path": "/",
+        "headers": {
+          "Host": "speedtestneternanewsggffnetemailcloudflarecomexpresstvsoft98ir.ernanews.ggff.net"
+        },
+        "max_early_data": 2048,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "vmess",
+      "tag": "🔒 VM-TCP-NA 🇺🇸 US-108.181.200.220:17163 § 13",
+      "server": "108.181.200.220",
+      "server_port": 17163,
+      "uuid": "d54814a1-7a93-45f8-9117-db317a25d100",
+      "security": "auto",
+      "authenticated_length": true
+    },
+    {
+      "type": "vless",
+      "tag": "🔒 VL-WS-NONE 🇫🇷 FR-162.19.228.119:80 § 14",
+      "server": "162.19.228.119",
+      "server_port": 80,
+      "uuid": "dc8eccdb-ecfa-435f-9ac1-5dc4882e7b51",
+      "transport": {
+        "type": "ws",
+        "path": "/http",
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "trojan",
+      "tag": "🔒 TR-WS-TLS 🏴‍☠️ NA-104.16.159.4:443 § 15",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "104.16.159.4",
+      "server_port": 443,
+      "password": "b4e8771997c94732acbc9ec4d19c2589",
+      "tls": {
+        "enabled": true,
+        "server_name": "bangladeshipatri.com",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/6b777a91",
+        "headers": {
+          "Host": "bangladeshipatri.com"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "🔒 TR-WS-TLS 🏴‍☠️ NA-104.16.159.5:443 § 16",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "104.16.159.5",
+      "server_port": 443,
+      "password": "984e400bf5d541b7b0815913fe0c432a",
+      "tls": {
+        "enabled": true,
+        "server_name": "bangladeshipatri.com",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/6b777a91",
+        "headers": {
+          "Host": "bangladeshipatri.com"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "🔒 TR-TCP-TLS 🇮🇪 IE-34.251.213.107:22222 § 17",
+      "server": "34.251.213.107",
+      "server_port": 22222,
+      "password": "telegram-id-directvpn",
+      "tls": {
+        "enabled": true,
+        "server_name": "trojan.burgerip.co.uk",
+        "alpn": "http/1.1",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "🔒 TR-TCP-NA 🏴‍☠️ NA-172.67.196.170:2083 § 18",
+      "server": "172.67.196.170",
+      "server_port": 2083,
+      "password": "r8CTEc4F7K",
+      "tls": {
+        "enabled": true,
+        "server_name": "speedtestneternanewsggffnetemailcloudflarecomexpresstvsoft98ir.expresstv.ggff.net",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🔒 VM-GRPC-TLS 🏴‍☠️ NA-108.162.192.154:2087 § 19",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "108.162.192.154",
+      "server_port": 2087,
+      "uuid": "2a3263e2-891c-4446-b474-a8c63acb6e25",
+      "security": "auto",
+      "authenticated_length": true,
+      "tls": {
+        "enabled": true,
+        "server_name": "1fdSNA119228928OpS2smTaB228aAsDDsd1ea14532201117.speedy-30.pro",
+        "alpn": [
+          "h2",
+          "http/1.1"
+        ],
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "grpc",
+        "idle_timeout": "15s",
+        "ping_timeout": "15s"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "🔒 TR-TCP-TLS 🇩🇪 DE-3.64.32.234:22222 § 20",
+      "server": "3.64.32.234",
+      "server_port": 22222,
+      "password": "telegram-id-privatevpns",
+      "tls": {
+        "enabled": true,
+        "server_name": "trojan.burgerip.co.uk",
+        "alpn": "http/1.1",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "🔒 VL-WS-TLS 🏴‍☠️ NA-172.66.44.109:443 § 21",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "172.66.44.109",
+      "server_port": 443,
+      "uuid": "1187ba87-8ebc-4a07-aa89-b331ed2cb356",
+      "tls": {
+        "enabled": true,
+        "server_name": "meti-u9d.pages.dev",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/",
+        "headers": {
+          "Host": "meti-u9d.pages.dev"
+        },
+        "max_early_data": 2048,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "vmess",
+      "tag": "🔒 VM-TCP-NA 🇺🇸 US-142.0.134.243:45017 § 22",
+      "server": "142.0.134.243",
+      "server_port": 45017,
+      "uuid": "418048af-a293-4b99-9b0c-98ca3580dd24",
+      "security": "auto",
+      "alter_id": 64,
+      "authenticated_length": true
+    },
+    {
+      "type": "vless",
+      "tag": "🔒 VL-WS-TLS 🏴‍☠️ NA-104.17.245.156:443 § 23",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "104.17.245.156",
+      "server_port": 443,
+      "uuid": "e10643eb-d506-4134-a839-79666fc650e3",
+      "tls": {
+        "enabled": true,
+        "server_name": "47264192333081204176091557333481.chrsjfklsdjfkljoierfdjklfjlkefeojsdlkfjeoifjsdlkfjweoifjlsdchrs.cyou",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/V2LINE-TELEGRAM-CHANNEL-VLESS-WS-TLS",
+        "headers": {
+          "Host": "47264192333081204176091557333481.chrsjfklsdjfkljoierfdjklfjlkefeojsdlkfjeoifjsdlkfjweoifjlsdchrs.cyou"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "trojan",
+      "tag": "🔒 TR-TCP-TLS 🇩🇪 DE-3.74.209.41:22222 § 24",
+      "server": "3.74.209.41",
+      "server_port": 22222,
+      "password": "telegram-id-directvpn",
+      "tls": {
+        "enabled": true,
+        "server_name": "trojan.burgerip.co.uk",
+        "alpn": "http/1.1",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "🔒 TR-TCP-TLS 🇫🇷 FR-13.37.24.49:22222 § 25",
+      "server": "13.37.24.49",
+      "server_port": 22222,
+      "password": "telegram-id-directvpn",
+      "tls": {
+        "enabled": true,
+        "server_name": "trojan.burgerip.co.uk",
+        "alpn": "http/1.1",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "🔒 VL-WS-NONE 🏴‍☠️ NA-104.17.148.22:2082 (1) § 26",
+      "server": "104.17.148.22",
+      "server_port": 2082,
+      "uuid": "71d13cc7-64bb-418a-f46f-fd70f137a9b9",
+      "transport": {
+        "type": "ws",
+        "path": "/@spikevpn-@spikevpn-@spikevpn-@spikevpn-@spikevpn",
+        "headers": {
+          "Host": "www.speedtest.net.zula.ir.Shad.ir.sHaparak.ir.torob.com.namaSha.com.namnak.com.filiMo.com.Rokna.net.teleweBion.com.iraNikala.toP."
+        },
+        "max_early_data": 1024,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "vless",
+      "tag": "🔒 VL-WS-TLS 🏴‍☠️ NA-172.66.44.156:443 § 27",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "172.66.44.156",
+      "server_port": 443,
+      "uuid": "4045e84e-5e3c-4f70-8ff5-c1097882a55a",
+      "tls": {
+        "enabled": true,
+        "server_name": "bpb-wOrkeR-PANEl1-E4P.PaGeS.Dev",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/Telegram@V2ray_Alpha/",
+        "headers": {
+          "Host": "bpb-worker-panel1-e4p.pages.dev"
+        },
+        "max_early_data": 2560,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "vless",
+      "tag": "🔒 VL-WS-TLS 🇭🇰 HK-13.75.34.176:443 § 28",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "13.75.34.176",
+      "server_port": 443,
+      "uuid": "6f995056-7802-4a1d-bff7-61678e626c3f",
+      "tls": {
+        "enabled": true,
+        "server_name": "hkklo.azurewebsites.net",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/",
+        "headers": {
+          "Host": "hkklo.azurewebsites.net"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "trojan",
+      "tag": "🔒 TR-TCP-TLS 🇪🇸 ES-18.100.115.245:443 § 29",
+      "server": "18.100.115.245",
+      "server_port": 443,
+      "password": "your_password",
+      "tls": {
+        "enabled": true,
+        "server_name": "aws-es-madrid-1.f1rocketnode.com",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "🔒 VL-WS-TLS 🏴‍☠️ NA-104.21.83.62:443 § 30",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "104.21.83.62",
+      "server_port": 443,
+      "uuid": "5e2a0dff-3392-476d-bbaa-c7b35380495e",
+      "tls": {
+        "enabled": true,
+        "server_name": "FREEDOM31.Pages.DEV",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/",
+        "headers": {
+          "Host": "FREEDOM31.Pages.DEV"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "vless",
+      "tag": "🔒 VL-GRPC-TLS 🏴‍☠️ NA-172.67.65.180:443 § 31",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "172.67.65.180",
+      "server_port": 443,
+      "uuid": "6b880b07-e952-4c0b-b4a3-6c9ac4cf9d3f",
+      "tls": {
+        "enabled": true,
+        "server_name": "hdfy1c4.sassanidempire.com",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "grpc",
+        "service_name": "LNGeLLJtWl4JWOU9ID6IU",
+        "idle_timeout": "15s",
+        "ping_timeout": "15s"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "trojan",
+      "tag": "🔒 TR-WS-TLS 🏴‍☠️ NA-198.41.220.5:443 § 32",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "198.41.220.5",
+      "server_port": 443,
+      "password": "cb1f26aa437d4bfa9b841d28503ce8cc",
+      "tls": {
+        "enabled": true,
+        "server_name": "jobscareertoday.com",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/6b777a91",
+        "headers": {
+          "Host": "jobscareertoday.com"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "🔒 VL-WS-NONE 🇦🇪 AE-217.60.192.135:8080 § 33",
+      "server": "217.60.192.135",
+      "server_port": 8080,
+      "uuid": "4a7728fb-6e86-4a1d-8380-6e64c9bff6f0",
+      "transport": {
+        "type": "ws",
+        "path": "/",
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "vless",
+      "tag": "🔒 VL-WS-TLS 🏴‍☠️ NA-172.66.44.244:443 § 34",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "172.66.44.244",
+      "server_port": 443,
+      "uuid": "08a07fca-27c1-46f5-85dc-6c9043588836",
+      "tls": {
+        "enabled": true,
+        "server_name": "pardazeshvpn-tg110.pages.dev",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/Telegram:@PARDAZESHVPN-Telegram:@PARDAZESHVPN-Telegram:@PARDAZESHVPN-Telegram:@PARDAZESHVPN-Telegram:@PARDAZESHVPN-Telegram:@PARDAZESHVPN-Telegram:@PARDAZESHVPN-Telegram:@PARDAZESHVPN-Telegram:@PARDAZESHVPN-Telegram:@PARDAZESHVPN-Telegram:@PARDAZESHVPN",
+        "headers": {
+          "Host": "pardazeshvpn-tg110.pages.dev"
+        },
+        "max_early_data": 2048,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "trojan",
+      "tag": "🔒 TR-TCP-TLS 🏴‍☠️ NA-172.67.131.245:443 § 35",
+      "server": "172.67.131.245",
+      "server_port": 443,
+      "password": "0b65bb06-6b28-487a-8e3c-820dda51e977",
+      "tls": {
+        "enabled": true,
+        "server_name": "series-v1.samanehha.co",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "🔒 VL-WS-TLS 🏴‍☠️ NA-172.67.161.104:8443 § 36",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "172.67.161.104",
+      "server_port": 8443,
+      "uuid": "a8a09765-7681-47ba-9ea0-e0ae79d51088",
+      "tls": {
+        "enabled": true,
+        "server_name": "tnetplus-1wc.pages.dev",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/",
+        "headers": {
+          "Host": "tnetplus-1wc.pages.dev"
+        },
+        "max_early_data": 2048,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "vless",
+      "tag": "🔒 VL-TCP-NONE 🇩🇪 DE-91.107.191.75:669 § 37",
+      "server": "91.107.191.75",
+      "server_port": 669,
+      "uuid": "6a218616-fff0-4d22-b7a0-b3bc6ce70dc4",
+      "transport": {
+        "type": "http",
+        "host": "cloudflare.com",
+        "path": "/",
+        "method": "GET"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "trojan",
+      "tag": "🔒 TR-WS-NA 🏴‍☠️ NA-104.17.215.18:443 § 38",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "104.17.215.18",
+      "server_port": 443,
+      "password": "���i��ק",
+      "tls": {
+        "enabled": true,
+        "server_name": "jobscareerforstudent.com",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/6b777a91",
+        "headers": {
+          "Host": "jobscareerforstudent.com"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "432-🇺🇸 美国 CloudFlare节点 § 39",
+      "server": "162.159.129.138",
+      "server_port": 80,
+      "uuid": "5820093a-bb7d-4e15-8575-1a529f2d8282",
+      "security": "auto",
+      "authenticated_length": true,
+      "transport": {
+        "type": "ws",
+        "path": "/",
+        "headers": {
+          "Host": "rn2.hostmjj.com"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "🇪🇸 Spain - NA 🌍 VL-WS-TLS 4⃣ (1) § 40",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "185.238.228.212",
+      "server_port": 443,
+      "uuid": "f775978b-6e22-41a8-ae5e-5f9779e6745f",
+      "tls": {
+        "enabled": true,
+        "server_name": "juzibaipiao.5112233.xyz",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/Telegram-V2ray_Alpha",
+        "headers": {
+          "Host": "juzibaipiao.5112233.xyz"
+        },
+        "max_early_data": 2560,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "vless",
+      "tag": "🇪🇸 Spain - NA 🌍 VL-WS-TLS 4⃣ (2) § 41",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "185.238.228.212",
+      "server_port": 443,
+      "uuid": "f775978b-6e22-41a8-ae5e-5f9779e6745f",
+      "tls": {
+        "enabled": true,
+        "server_name": "juzibaipiao.5112233.xyz",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/",
+        "headers": {
+          "Host": "juzibaipiao.5112233.xyz"
+        },
+        "max_early_data": 2048,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "vless",
+      "tag": "🇱🇹 Lithuania - NA 🌍 VL-WS-TLS 4⃣ (9) § 42",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "89.116.250.6",
+      "server_port": 2083,
+      "uuid": "f775978b-6e22-41a8-ae5e-5f9779e6745f",
+      "tls": {
+        "enabled": true,
+        "server_name": "juzibaipiao.5112233.xyz",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/Telegram-V2ray_Alpha",
+        "headers": {
+          "Host": "juzibaipiao.5112233.xyz"
+        },
+        "max_early_data": 2560,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "trojan",
+      "tag": "🇳🇦 Namibia - NA 🌍 TR-WS-TLS 4⃣ § 43",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "104.17.215.8",
+      "server_port": 443,
+      "password": "2cba4104747d49d18319e5ade1b93ab5",
+      "tls": {
+        "enabled": true,
+        "server_name": "jobscareertoday.com",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/6b777a91",
+        "headers": {
+          "Host": "jobscareertoday.com"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "🇳🇦 Namibia - NA 🌍 TR-WS-TLS 4⃣ (1) § 44",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "104.17.215.18",
+      "server_port": 443,
+      "password": "���i��ק",
+      "tls": {
+        "enabled": true,
+        "server_name": "jobscareerforstudent.com",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/6b777a91",
+        "headers": {
+          "Host": "jobscareerforstudent.com"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "🇳🇦 Namibia - NA 🌍 TR-WS-TLS 4⃣ (2) § 45",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "104.19.159.14",
+      "server_port": 443,
+      "password": "ce8b8b30ebba45f2a38dd608b85e8628",
+      "tls": {
+        "enabled": true,
+        "server_name": "jobscareerforstudent.com",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/6b777a91",
+        "headers": {
+          "Host": "jobscareerforstudent.com"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "🇳🇦 Namibia - NA 🌍 TR-WS-TLS 4⃣ (3) § 46",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "104.16.192.145",
+      "server_port": 443,
+      "password": "669d0ac7b5b64ebbb1abb75d5d540a5c",
+      "tls": {
+        "enabled": true,
+        "server_name": "jobscareerforlawyers.com",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/6b777a91",
+        "headers": {
+          "Host": "jobscareerforlawyers.com"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "🇳🇦 Namibia - NA 🌍 TR-WS-TLS 4⃣ (4) § 47",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "198.41.220.5",
+      "server_port": 443,
+      "password": "cb1f26aa437d4bfa9b841d28503ce8cc",
+      "tls": {
+        "enabled": true,
+        "server_name": "jobscareertoday.com",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/6b777a91",
+        "headers": {
+          "Host": "jobscareertoday.com"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "🇳🇦 Namibia - NA 🌍 TR-WS-TLS 4⃣ (7) § 48",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "198.41.220.2",
+      "server_port": 443,
+      "password": "242a3d8eee5e4ed1a6bfa4141d549a25",
+      "tls": {
+        "enabled": true,
+        "server_name": "jobscareerfortoday.com",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/6b777a91",
+        "headers": {
+          "Host": "jobscareerfortoday.com"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "🇳🇦 Namibia - NA 🌍 TR-WS-TLS 4⃣ (10) § 49",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "104.19.171.2",
+      "server_port": 443,
+      "password": "984e400bf5d541b7b0815913fe0c432a",
+      "tls": {
+        "enabled": true,
+        "server_name": "jobscareertoday.com",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/6b777a91",
+        "headers": {
+          "Host": "jobscareertoday.com"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "🇳🇦 Namibia - NA 🌍 TR-WS-TLS 4⃣ (11) § 50",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "104.16.159.112",
+      "server_port": 443,
+      "password": "4aec4e7f8cf8454ea4613659822e1a61",
+      "tls": {
+        "enabled": true,
+        "server_name": "jobscareertoday.com",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/6b777a91",
+        "headers": {
+          "Host": "jobscareertoday.com"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "🇳🇦 Namibia - NA 🌍 TR-WS-TLS 4⃣ (12) § 51",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "104.17.61.7",
+      "server_port": 443,
+      "password": "���i��ק",
+      "tls": {
+        "enabled": true,
+        "server_name": "jobscareerfortoday.com",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/6b777a91",
+        "headers": {
+          "Host": "jobscareerfortoday.com"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ § 52",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "198.41.221.160",
+      "server_port": 443,
+      "uuid": "f775978b-6e22-41a8-ae5e-5f9779e6745f",
+      "tls": {
+        "enabled": true,
+        "server_name": "juzibaipiao.5112233.xyz",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/",
+        "headers": {
+          "Host": "juzibaipiao.5112233.xyz"
+        },
+        "max_early_data": 2048,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "vless",
+      "tag": "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (8) § 53",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "108.162.192.186",
+      "server_port": 443,
+      "uuid": "f775978b-6e22-41a8-ae5e-5f9779e6745f",
+      "tls": {
+        "enabled": true,
+        "server_name": "juzibaipiao.5112233.xyz",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/",
+        "headers": {
+          "Host": "juzibaipiao.5112233.xyz"
+        },
+        "max_early_data": 2048,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "vless",
+      "tag": "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (21) § 54",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "162.159.192.87",
+      "server_port": 443,
+      "uuid": "d342d11e-d424-4583-b36e-524ab1f0afa4",
+      "tls": {
+        "enabled": true,
+        "server_name": "edgood.889876.xyz",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/",
+        "headers": {
+          "Host": "edgood.889876.xyz"
+        },
+        "max_early_data": 2048,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "vless",
+      "tag": "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (51) § 55",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "198.41.221.12",
+      "server_port": 443,
+      "uuid": "f775978b-6e22-41a8-ae5e-5f9779e6745f",
+      "tls": {
+        "enabled": true,
+        "server_name": "juzibaipiao.5112233.xyz",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/",
+        "headers": {
+          "Host": "juzibaipiao.5112233.xyz"
+        },
+        "max_early_data": 2048,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "vless",
+      "tag": "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (88) § 56",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "172.67.204.84",
+      "server_port": 8443,
+      "uuid": "17fafaf9-7402-40eb-87ae-a75944c84c52",
+      "tls": {
+        "enabled": true,
+        "server_name": "ggho.pages.dev.",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/?ed",
+        "headers": {
+          "Host": "ggho.pages.dev."
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "vless",
+      "tag": "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (100) § 57",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "104.18.206.42",
+      "server_port": 443,
+      "uuid": "f775978b-6e22-41a8-ae5e-5f9779e6745f",
+      "tls": {
+        "enabled": true,
+        "server_name": "juzibaipiao.5112233.xyz",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/",
+        "headers": {
+          "Host": "juzibaipiao.5112233.xyz"
+        },
+        "max_early_data": 2048,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "vless",
+      "tag": "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (157) § 58",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "104.17.65.91",
+      "server_port": 443,
+      "uuid": "f775978b-6e22-41a8-ae5e-5f9779e6745f",
+      "tls": {
+        "enabled": true,
+        "server_name": "juzibaipiao.5112233.xyz",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/",
+        "headers": {
+          "Host": "juzibaipiao.5112233.xyz"
+        },
+        "max_early_data": 2048,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "vless",
+      "tag": "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (164) § 59",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "104.17.34.100",
+      "server_port": 443,
+      "uuid": "f775978b-6e22-41a8-ae5e-5f9779e6745f",
+      "tls": {
+        "enabled": true,
+        "server_name": "juzibaipiao.5112233.xyz",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/",
+        "headers": {
+          "Host": "juzibaipiao.5112233.xyz"
+        },
+        "max_early_data": 2048,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "vless",
+      "tag": "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (169) § 60",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "104.17.137.23",
+      "server_port": 443,
+      "uuid": "f775978b-6e22-41a8-ae5e-5f9779e6745f",
+      "tls": {
+        "enabled": true,
+        "server_name": "juzibaipiao.5112233.xyz",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/",
+        "headers": {
+          "Host": "juzibaipiao.5112233.xyz"
+        },
+        "max_early_data": 2048,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "vless",
+      "tag": "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (191) § 61",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "198.41.221.141",
+      "server_port": 443,
+      "uuid": "f775978b-6e22-41a8-ae5e-5f9779e6745f",
+      "tls": {
+        "enabled": true,
+        "server_name": "juzibaipiao.5112233.xyz",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/",
+        "headers": {
+          "Host": "juzibaipiao.5112233.xyz"
+        },
+        "max_early_data": 2048,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "vless",
+      "tag": "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (211) § 62",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "104.16.68.38",
+      "server_port": 443,
+      "uuid": "a25e8ff9-8650-4098-86af-b524e4ec72d8",
+      "tls": {
+        "enabled": true,
+        "server_name": "admin2.pythonic-ai.com",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/vYoLL0j3yXajA2rNVYyVkeSUkkM",
+        "headers": {
+          "Host": "admin2.pythonic-ai.com"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "vless",
+      "tag": "🇳🇦 Namibia - NA 🌍 VL-WS-TLS 4⃣ (233) § 63",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "108.162.192.114",
+      "server_port": 443,
+      "uuid": "f775978b-6e22-41a8-ae5e-5f9779e6745f",
+      "tls": {
+        "enabled": true,
+        "server_name": "juzibaipiao.5112233.xyz",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/",
+        "headers": {
+          "Host": "juzibaipiao.5112233.xyz"
+        },
+        "max_early_data": 2048,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ § 64",
+      "server": "104.16.60.8",
+      "server_port": 8880,
+      "uuid": "4b5e4565-322f-4223-a891-78a84f189726",
+      "security": "auto",
+      "authenticated_length": true,
+      "transport": {
+        "type": "ws",
+        "path": "/XSjeg73o6ZdsheahCb5JG",
+        "headers": {
+          "Host": "us-ccs.yuji2022.eu.org"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ (3) § 65",
+      "server": "104.16.61.8",
+      "server_port": 8880,
+      "uuid": "4b5e4565-322f-4223-a891-78a84f189726",
+      "security": "auto",
+      "authenticated_length": true,
+      "transport": {
+        "type": "ws",
+        "path": "/doxwPZje9wMMZi4m9xY8GkU5zT3Hs4kRDL4W3nistSRmDw3x2",
+        "headers": {
+          "Host": "nl-a.yuji2022.eu.org"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ (5) § 66",
+      "server": "172.67.151.228",
+      "server_port": 8880,
+      "uuid": "4b5e4565-322f-4223-a891-78a84f189726",
+      "security": "auto",
+      "authenticated_length": true,
+      "transport": {
+        "type": "ws",
+        "path": "/doxwPZje9wMMZi4m9xY8GkU5zT3Hs4kRDL4W3nistSRmDw3x2",
+        "headers": {
+          "Host": "nl-a.yuji2022.eu.org"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ (12) § 67",
+      "server": "104.16.61.8",
+      "server_port": 8880,
+      "uuid": "4b5e4565-322f-4223-a891-78a84f189726",
+      "security": "auto",
+      "authenticated_length": true,
+      "transport": {
+        "type": "ws",
+        "path": "/XSjeg73o6ZdsheahCb5JG",
+        "headers": {
+          "Host": "us-ccs.yuji2022.eu.org"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ (7) § 68",
+      "server": "104.16.61.8",
+      "server_port": 8880,
+      "uuid": "4b5e4565-322f-4223-a891-78a84f189726",
+      "security": "auto",
+      "authenticated_length": true,
+      "transport": {
+        "type": "ws",
+        "path": "/r8ykwif5rffiqJeJ49zLQtAUESmka7PbhWz3wiHs8cSeiRyZL",
+        "headers": {
+          "Host": "pl-a.yuji2022.eu.org"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ (9) § 69",
+      "server": "104.21.1.28",
+      "server_port": 8880,
+      "uuid": "4b5e4565-322f-4223-a891-78a84f189726",
+      "security": "auto",
+      "authenticated_length": true,
+      "transport": {
+        "type": "ws",
+        "path": "/doxwPZje9wMMZi4m9xY8GkU5zT3Hs4kRDL4W3nistSRmDw3x2",
+        "headers": {
+          "Host": "nl-a.yuji2022.eu.org"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ (13) § 70",
+      "server": "104.16.67.38",
+      "server_port": 80,
+      "uuid": "2a8a10fb-9ca3-367e-a234-cf09f841be4f",
+      "security": "auto",
+      "authenticated_length": true,
+      "transport": {
+        "type": "ws",
+        "path": "/v118-fccxmxm35",
+        "headers": {
+          "Host": "us3e-mmnnfr9dop0.v2freevpn.com"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ (14) § 71",
+      "server": "104.21.1.28",
+      "server_port": 8880,
+      "uuid": "4b5e4565-322f-4223-a891-78a84f189726",
+      "security": "auto",
+      "authenticated_length": true,
+      "transport": {
+        "type": "ws",
+        "path": "/XSjeg73o6ZdsheahCb5JG",
+        "headers": {
+          "Host": "us-ccs.yuji2022.eu.org"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ (15) § 72",
+      "server": "172.67.170.75",
+      "server_port": 80,
+      "uuid": "2a8a10fb-9ca3-367e-a234-cf09f841be4f",
+      "security": "auto",
+      "authenticated_length": true,
+      "transport": {
+        "type": "ws",
+        "path": "/v118-fccxmxm35",
+        "headers": {
+          "Host": "us3e-mmnnfr9dop0.v2freevpn.com"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-NA 4⃣ (17) § 73",
+      "server": "172.67.151.228",
+      "server_port": 8880,
+      "uuid": "4b5e4565-322f-4223-a891-78a84f189726",
+      "security": "auto",
+      "authenticated_length": true,
+      "transport": {
+        "type": "ws",
+        "path": "/XSjeg73o6ZdsheahCb5JG",
+        "headers": {
+          "Host": "us-ccs.yuji2022.eu.org"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ § 74",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "104.21.83.208",
+      "server_port": 443,
+      "uuid": "f584de15-2034-4170-a723-f48c2bae5e0f",
+      "security": "auto",
+      "authenticated_length": true,
+      "tls": {
+        "enabled": true,
+        "server_name": "afrhms16v.bestxray.buzz",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/linkws",
+        "headers": {
+          "Host": "afrhms16v.bestxray.buzz"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (1) § 75",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "172.67.170.13",
+      "server_port": 443,
+      "uuid": "76221bfb-e92f-4e80-81c5-6fe48f50ac0b",
+      "security": "auto",
+      "authenticated_length": true,
+      "tls": {
+        "enabled": true,
+        "server_name": "glweidf.sbs",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/linkws",
+        "headers": {
+          "Host": "glweidf.sbs"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (3) § 76",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "188.114.96.1",
+      "server_port": 443,
+      "uuid": "edbb1059-1633-4271-b66e-ed4fba47a1bf",
+      "security": "auto",
+      "authenticated_length": true,
+      "tls": {
+        "enabled": true,
+        "server_name": "linde06.indiavideo.sbs",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/linkws",
+        "headers": {
+          "Host": "linde06.indiavideo.sbs"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (5) § 77",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "188.114.97.3",
+      "server_port": 443,
+      "uuid": "f584de15-2034-4170-a723-f48c2bae5e0f",
+      "security": "auto",
+      "authenticated_length": true,
+      "tls": {
+        "enabled": true,
+        "server_name": "afrhms16v.bestxray.buzz",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/linkws",
+        "headers": {
+          "Host": "afrhms16v.bestxray.buzz"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (8) § 78",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "188.114.97.8",
+      "server_port": 443,
+      "uuid": "f584de15-2034-4170-a723-f48c2bae5e0f",
+      "security": "auto",
+      "authenticated_length": true,
+      "tls": {
+        "enabled": true,
+        "server_name": "afrhms16v.bestxray.buzz",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/linkws",
+        "headers": {
+          "Host": "afrhms16v.bestxray.buzz"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (9) § 79",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "172.67.196.112",
+      "server_port": 443,
+      "uuid": "edbb1059-1633-4271-b66e-ed4fba47a1bf",
+      "security": "auto",
+      "authenticated_length": true,
+      "tls": {
+        "enabled": true,
+        "server_name": "linde06.indiavideo.sbs",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/linkws",
+        "headers": {
+          "Host": "linde06.indiavideo.sbs"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (10) § 80",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "188.114.97.79",
+      "server_port": 443,
+      "uuid": "edbb1059-1633-4271-b66e-ed4fba47a1bf",
+      "security": "auto",
+      "authenticated_length": true,
+      "tls": {
+        "enabled": true,
+        "server_name": "linde06.indiavideo.sbs",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/linkws",
+        "headers": {
+          "Host": "linde06.indiavideo.sbs"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (11) § 81",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "188.114.96.2",
+      "server_port": 443,
+      "uuid": "edbb1059-1633-4271-b66e-ed4fba47a1bf",
+      "security": "auto",
+      "authenticated_length": true,
+      "tls": {
+        "enabled": true,
+        "server_name": "linde06.indiavideo.sbs",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/linkws",
+        "headers": {
+          "Host": "linde06.indiavideo.sbs"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (12) § 82",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "188.114.97.7",
+      "server_port": 443,
+      "uuid": "edbb1059-1633-4271-b66e-ed4fba47a1bf",
+      "security": "auto",
+      "authenticated_length": true,
+      "tls": {
+        "enabled": true,
+        "server_name": "linde06.indiavideo.sbs",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/linkws",
+        "headers": {
+          "Host": "linde06.indiavideo.sbs"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (13) § 83",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "188.114.97.1",
+      "server_port": 443,
+      "uuid": "edbb1059-1633-4271-b66e-ed4fba47a1bf",
+      "security": "auto",
+      "authenticated_length": true,
+      "tls": {
+        "enabled": true,
+        "server_name": "linde06.indiavideo.sbs",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/linkws",
+        "headers": {
+          "Host": "linde06.indiavideo.sbs"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (17) § 84",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "104.21.51.208",
+      "server_port": 443,
+      "uuid": "edbb1059-1633-4271-b66e-ed4fba47a1bf",
+      "security": "auto",
+      "authenticated_length": true,
+      "tls": {
+        "enabled": true,
+        "server_name": "linde06.indiavideo.sbs",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/linkws",
+        "headers": {
+          "Host": "linde06.indiavideo.sbs"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (20) § 85",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "104.21.74.239",
+      "server_port": 443,
+      "uuid": "a1655f51-1e20-4a92-8a11-b7ca30a7a353",
+      "security": "auto",
+      "authenticated_length": true,
+      "tls": {
+        "enabled": true,
+        "server_name": "afrhms07.xfixedfloat.cfd",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/linkws",
+        "headers": {
+          "Host": "afrhms07.xfixedfloat.cfd"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (23) § 86",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "172.67.164.164",
+      "server_port": 443,
+      "uuid": "a1655f51-1e20-4a92-8a11-b7ca30a7a353",
+      "security": "auto",
+      "authenticated_length": true,
+      "tls": {
+        "enabled": true,
+        "server_name": "hms07.xfixedfloat.cfd",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/linkws",
+        "headers": {
+          "Host": "afrhms07.xfixedfloat.cfd"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (27) § 87",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "188.114.97.2",
+      "server_port": 443,
+      "uuid": "05641cf5-58d2-4ba4-a9f1-b3cda0b1fb1d",
+      "security": "auto",
+      "authenticated_length": true,
+      "tls": {
+        "enabled": true,
+        "server_name": "obdii.cfd",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/linkws",
+        "headers": {
+          "Host": "obdii.cfd"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (32) § 88",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "172.67.181.241",
+      "server_port": 443,
+      "uuid": "f584de15-2034-4170-a723-f48c2bae5e0f",
+      "security": "auto",
+      "authenticated_length": true,
+      "tls": {
+        "enabled": true,
+        "server_name": "afrhms16v.bestxray.buzz",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/linkws",
+        "headers": {
+          "Host": "afrhms16v.bestxray.buzz"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (33) § 89",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "104.21.15.212",
+      "server_port": 443,
+      "uuid": "76221bfb-e92f-4e80-81c5-6fe48f50ac0b",
+      "security": "auto",
+      "authenticated_length": true,
+      "tls": {
+        "enabled": true,
+        "server_name": "glweidf.sbs",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/linkws",
+        "headers": {
+          "Host": "glweidf.sbs"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (34) § 90",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "188.114.96.3",
+      "server_port": 443,
+      "uuid": "edbb1059-1633-4271-b66e-ed4fba47a1bf",
+      "security": "auto",
+      "authenticated_length": true,
+      "tls": {
+        "enabled": true,
+        "server_name": "linde06.indiavideo.sbs",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/linkws",
+        "headers": {
+          "Host": "linde06.indiavideo.sbs"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (38) § 91",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "188.114.97.210",
+      "server_port": 443,
+      "uuid": "edbb1059-1633-4271-b66e-ed4fba47a1bf",
+      "security": "auto",
+      "authenticated_length": true,
+      "tls": {
+        "enabled": true,
+        "server_name": "linde06.indiavideo.sbs",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/linkws",
+        "headers": {
+          "Host": "linde06.indiavideo.sbs"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (39) § 92",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "172.67.204.84",
+      "server_port": 443,
+      "uuid": "950db6aa-4926-4616-816e-ec0312dcb87b",
+      "security": "auto",
+      "authenticated_length": true,
+      "tls": {
+        "enabled": true,
+        "server_name": "jahfkjha.cfd",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/linkws",
+        "headers": {
+          "Host": "jahfkjha.cfd"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇱 Netherlands - Amsterdam 🌍 VM-WS-NA 4⃣ (1) § 93",
+      "server": "38.180.98.215",
+      "server_port": 8080,
+      "uuid": "773ac60d-36d7-45b5-c99e-a0e3903e2e3a",
+      "security": "auto",
+      "authenticated_length": true,
+      "transport": {
+        "type": "ws",
+        "path": "/",
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (46) § 94",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "172.67.170.11",
+      "server_port": 443,
+      "uuid": "edbb1059-1633-4271-b66e-ed4fba47a1bf",
+      "security": "auto",
+      "authenticated_length": true,
+      "tls": {
+        "enabled": true,
+        "server_name": "linde06.indiavideo.sbs",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/linkws",
+        "headers": {
+          "Host": "linde06.indiavideo.sbs"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (51) § 95",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "172.67.161.77",
+      "server_port": 443,
+      "uuid": "edbb1059-1633-4271-b66e-ed4fba47a1bf",
+      "security": "auto",
+      "authenticated_length": true,
+      "tls": {
+        "enabled": true,
+        "server_name": "linde06.indiavideo.sbs",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/linkws",
+        "headers": {
+          "Host": "linde06.indiavideo.sbs"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇦 Namibia - NA 🌍 VM-WS-TLS 4⃣ (54) § 96",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "104.21.15.36",
+      "server_port": 443,
+      "uuid": "edbb1059-1633-4271-b66e-ed4fba47a1bf",
+      "security": "auto",
+      "authenticated_length": true,
+      "tls": {
+        "enabled": true,
+        "server_name": "linde06.indiavideo.sbs",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/linkws",
+        "headers": {
+          "Host": "linde06.indiavideo.sbs"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇱 Netherlands - Amsterdam 🌍 VM-WS-NA 4⃣ § 97",
+      "server": "38.180.98.215",
+      "server_port": 8080,
+      "uuid": "773ac60d-36d7-45b5-c99e-a0e3903e2e3a",
+      "security": "auto",
+      "authenticated_length": true,
+      "transport": {
+        "type": "ws",
+        "path": "/",
+        "headers": {
+          "Host": "vkvd127.mycdn.me"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇳🇱 Netherlands - Amsterdam 🌍 VM-WS-NA 4⃣ (2) § 98",
+      "server": "38.180.98.215",
+      "server_port": 8080,
+      "uuid": "773ac60d-36d7-45b5-c99e-a0e3903e2e3a",
+      "security": "auto",
+      "authenticated_length": true,
+      "transport": {
+        "type": "ws",
+        "path": "/",
+        "headers": {
+          "Host": "internet.life.com.by"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "🇷🇺 Russian Federation - Moscow 🌍 VL-WS-TLS 4⃣ (4) § 99",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "188.42.145.95",
+      "server_port": 443,
+      "uuid": "e4e7b149-8bd8-4266-8cbb-0987604dbc87",
+      "tls": {
+        "enabled": true,
+        "server_name": "toujiediansigema.5112233.xyz",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/TG@juzibaipiao%E5%81%B7%E8%8A%82%E7%82%B9%E6%AD%BB%E5%90%97",
+        "headers": {
+          "Host": "toujiediansigema.5112233.xyz"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "vless",
+      "tag": "🇷🇺 Russian Federation - NA 🌍 VL-WS-TLS 4⃣ (1) § 100",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      },
+      "server": "185.109.21.230",
+      "server_port": 443,
+      "uuid": "e4e7b149-8bd8-4266-8cbb-0987604dbc87",
+      "tls": {
+        "enabled": true,
+        "server_name": "toujiediansigema.5112233.xyz",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/TG@juzibaipiao%E5%81%B7%E8%8A%82%E7%82%B9%E6%AD%BB%E5%90%97",
+        "headers": {
+          "Host": "toujiediansigema.5112233.xyz"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "vmess",
+      "tag": "🇺🇸 United States - Dulles 🌎 VM-TCP-NA 4⃣ § 101",
+      "server": "2.58.87.221",
+      "server_port": 46628,
+      "uuid": "f6ba9e5a-711c-496f-be60-ac5464dec2b8",
+      "security": "auto",
+      "authenticated_length": true
+    },
+    {
+      "type": "hysteria",
+      "tag": "🇺🇸 United States - Los Angeles 🌎 HY1-UDP-TLS 4⃣ (8) § 102",
+      "server": "173.234.25.53",
+      "server_port": 48919,
+      "up_mbps": 50,
+      "down_mbps": 100,
+      "auth_str": "dongtaiwang.com",
+      "tls": {
+        "enabled": true,
+        "server_name": "wrmelmwxlf.gktevlrqznwqqozy.fabpfs66gizmnojhcvqxwl.kytrcfzqla87gvgvs6c7kjnrubuh.cc",
+        "insecure": true
+      }
+    },
+    {
+      "type": "hysteria",
+      "tag": "🇺🇸 United States - Los Angeles 🌎 HY1-UDP-TLS 4⃣ (9) § 103",
+      "server": "173.234.25.52",
+      "server_port": 48919,
+      "up_mbps": 55,
+      "down_mbps": 110,
+      "auth_str": "dongtaiwang.com",
+      "tls": {
+        "enabled": true,
+        "server_name": "wrmelmwxlf.gktevlrqznwqqozy.fabpfs66gizmnojhcvqxwl.kytrcfzqla87gvgvs6c7kjnrubuh.cc",
+        "insecure": true
+      }
+    },
+    {
+      "type": "hysteria",
+      "tag": "🇺🇸 United States - Los Angeles 🌎 HY1-UDP-TLS 4⃣ (10) § 104",
+      "server": "173.234.25.52",
+      "server_port": 48919,
+      "up_mbps": 80,
+      "down_mbps": 100,
+      "auth_str": "dongtaiwang.com",
+      "tls": {
+        "enabled": true,
+        "server_name": "bing.com",
+        "insecure": true
+      }
+    },
+    {
+      "type": "hysteria",
+      "tag": "🇺🇸 United States - Los Angeles 🌎 HY1-UDP-TLS 4⃣ (11) § 105",
+      "server": "173.234.25.52",
+      "server_port": 48919,
+      "up_mbps": 11,
+      "down_mbps": 55,
+      "auth_str": "dongtaiwang.com",
+      "tls": {
+        "enabled": true,
+        "server_name": "wrmelmwxlf.gktevlrqznwqqozy.fabpfs66gizmnojhcvqxwl.kytrcfzqla87gvgvs6c7kjnrubuh.cc",
+        "insecure": true
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇺🇸 United States - Los Angeles 🌎 VM-TCP-NA 4⃣ (9) § 106",
+      "server": "74.48.4.5",
+      "server_port": 50100,
+      "uuid": "7748cec0-5164-4c52-87cf-55758d80fdaf",
+      "security": "auto",
+      "authenticated_length": true,
+      "transport": {
+        "type": "http",
+        "host": "viber.com",
+        "path": "/",
+        "method": "GET"
+      }
+    },
+    {
+      "type": "dns",
+      "tag": "dns-out"
+    },
+    {
+      "type": "direct",
+      "tag": "direct"
+    },
+    {
+      "type": "direct",
+      "tag": "direct-fragment",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      }
+    },
+    {
+      "type": "direct",
+      "tag": "bypass"
+    },
+    {
+      "type": "block",
+      "tag": "block"
+    }
+  ],
+  "route": {
+    "rules": [
+      {
+        "rule_set": [
+          "geoip-ir",
+          "geosite-ir"
+        ],
+        "outbound": "direct"
+      },
+      {
+        "inbound": "dns-in",
+        "outbound": "dns-out"
+      },
+      {
+        "port": 53,
+        "outbound": "dns-out"
+      },
+      {
+        "clash_mode": "Direct",
+        "outbound": "direct"
+      },
+      {
+        "clash_mode": "Global",
+        "outbound": "select"
+      }
+    ],
+    "rule_set": [
+      {
+        "type": "remote",
+        "tag": "geoip-ir",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/hiddify/hiddify-geo/rule-set/country/geoip-ir.srs",
+        "update_interval": "120h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-ir",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/hiddify/hiddify-geo/rule-set/country/geosite-ir.srs",
+        "update_interval": "120h0m0s"
+      }
+    ],
+    "final": "select",
+    "auto_detect_interface": true,
+    "override_android_vpn": true
+  },
+  "experimental": {
+    "cache_file": {
+      "enabled": true,
+      "path": "clash.db"
+    },
+    "clash_api": {
+      "external_controller": "127.0.0.1:16756",
+      "secret": "Qd3KpTVNemmFZYyr"
+    }
+  }
+}
